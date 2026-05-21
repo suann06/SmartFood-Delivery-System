@@ -1,65 +1,106 @@
 // ============================================================
-// Author: [Person 3 - Write your name here]
+// Author: [Person 3 - Koh Pei Yin]
 // Module: Delivery Rider Assignment
-// File:   MinHeap.java — Min Heap for selecting best rider
+// File:   MinHeap.java — Priority queue logic for optimal rider selection
 // ============================================================
 
 package delivery;
 
+import java.util.ArrayList;
+
 public class MinHeap {
 
-    // TODO: Declare:
-    //       - Rider[] heap (array to store riders)
-    //       - int size (current number of elements)
-    //       - int capacity (max size of array)
+    //Instance Variables
+    private ArrayList<Rider> heap;
 
-
-    // TODO: Constructor — initialize array with given capacity, size = 0
-
-
-    // --- Helper Methods ---
-
-    // TODO: parent(int i) — return index of parent: (i - 1) / 2
-
-    // TODO: leftChild(int i) — return index of left child: 2 * i + 1
-
-    // TODO: rightChild(int i) — return index of right child: 2 * i + 2
-
-    // TODO: swap(int i, int j) — swap two elements in the array
-
-
-    // --- Core Methods ---
-
-    // TODO: insert(Rider rider) — add rider to end, then bubbleUp
-    //       Handle: heap full case
-
-    // TODO: bubbleUp(int index) — move element up until heap property is restored
-    //       While index > 0 and heap[index].estimatedTime < heap[parent].estimatedTime → swap and move up
-
-    // TODO: extractMin() — remove and return root (best rider), replace with last, then heapifyDown
-    //       Handle: empty heap case
-
-    // TODO: heapifyDown(int index) — move element down until heap property is restored
-    //       Find smallest among node and its children, swap if needed, repeat
-
-    // TODO: peek() — return root rider without removing
-
-    // TODO: size() — return current size
-
-    // TODO: isEmpty() — return true if size == 0
-
-
-    // --- Testing ---
-    /*
-    public static void main(String[] args) {
-        MinHeap heap = new MinHeap(10);
-        heap.insert(new Rider(1, "Ahmad", 15, true));
-        heap.insert(new Rider(2, "Mei Ling", 8, true));
-        heap.insert(new Rider(3, "Raj", 12, true));
-
-        System.out.println("Best rider: " + heap.peek());        // Mei Ling (8 min)
-        System.out.println("Assigned: " + heap.extractMin());     // Mei Ling removed
-        System.out.println("Next best: " + heap.peek());          // Raj (12 min)
+    //Constructor
+    public MinHeap() {
+        this.heap = new ArrayList<>();
     }
-    */
+
+    //Helper Methods for Index Tree Math
+    private int getParentIndex(int i) { 
+        return (i - 1) / 2; 
+    }
+    private int getLeftChildIndex(int i) { 
+        return (2 * i) + 1; 
+    }
+    private int getRightChildIndex(int i) { 
+        return (2 * i) + 2; 
+    }
+
+    //Core Heap Operations
+    //Insert Rider (Heapify Up)
+    public void insertRider(Rider rider) {
+        heap.add(rider);
+        int current = heap.size() - 1;
+
+        // Bubble up if the newly inserted rider has a lower estimated time than its parent
+        while (current > 0 && heap.get(current).getEstimatedTime() < heap.get(getParentIndex(current)).getEstimatedTime()) {
+            swap(current, getParentIndex(current));
+            current = getParentIndex(current);
+        }
+    }
+
+    //Remove Minimum Rider (Extract Top Priority)
+    public Rider removeMin() {
+        if (heap.isEmpty()) {
+            return null;
+        }
+        if (heap.size() == 1) {
+            return heap.remove(0);
+        }
+
+        // Keep a reference to the root (fastest rider) to return at the end
+        Rider rootRider = heap.get(0);
+        
+        // Move the last element to the root position
+        heap.set(0, heap.remove(heap.size() - 1));
+        
+        // Call heapify on the root element to push it back down to its correct spot
+        heapify(0);
+
+        return rootRider;
+    }
+
+    //Heapify (Heapify Down)
+    public void heapify(int index) {
+        int smallest = index;
+        int left = getLeftChildIndex(index);
+        int right = getRightChildIndex(index);
+
+        // Check if the left child exists and has a lower estimated delivery time
+        if (left < heap.size() && heap.get(left).getEstimatedTime() < heap.get(smallest).getEstimatedTime()) {
+            smallest = left;
+        }
+
+        // Check if the right child exists and has a lower estimated delivery time
+        if (right < heap.size() && heap.get(right).getEstimatedTime() < heap.get(smallest).getEstimatedTime()) {
+            smallest = right;
+        }
+
+        // If the smallest element is not the current element, swap them and continue cascading down
+        if (smallest != index) {
+            swap(index, smallest);
+            heapify(smallest);
+        }
+    }
+
+    //Additional Utility Methods
+    //Element Swapper
+    private void swap(int i, int j) {
+        Rider temp = heap.get(i);
+        heap.set(i, heap.get(j));
+        heap.set(j, temp);
+    }
+
+    //Check if Empty
+    public boolean isEmpty() {
+        return heap.isEmpty();
+    }
+
+    //Get Size
+    public int size() {
+        return heap.size();
+    }
 }
