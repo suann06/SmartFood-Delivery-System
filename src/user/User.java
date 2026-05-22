@@ -1,4 +1,10 @@
-package user_restaurantmanagement;
+// ============================================================
+// Author: [Person 1 - Janice Lim Pei Yin]
+// Module: User & Restaurant Management
+// File:   User.java — Data model for a customer
+// ============================================================
+
+package user;
 
 public class User {
     private String userId;
