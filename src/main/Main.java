@@ -6,6 +6,8 @@
 
 package main;
 
+import order.*;
+
 // TODO: Import all modules
 // import user.*;
 // import order.*;
@@ -36,9 +38,64 @@ public class Main {
         // ─────────────────────────────────────────────
         System.out.println("\n>>> STEP 2: Processing Orders <<<\n");
 
-        // TODO (Person 2): Demo UndoStack — add items to cart, undo one
-        // TODO (Person 2): Create orders and add to OrderQueue
-        // TODO (Person 2): Dequeue and process an order
+        // Demo UndoStack
+        UndoStack cart = new UndoStack();
+
+        cart.push("Nasi Lemak");
+        cart.push("Teh Tarik");
+        cart.push("Roti Canai");
+
+        System.out.println("Current Cart:");
+        cart.displayCart();
+
+        System.out.println("\nUndo Last Item:");
+        String removedItem = cart.pop();
+
+        System.out.println("Removed: " + removedItem);
+
+        cart.displayCart();
+
+
+        // Create Order Queue
+        OrderQueue queue = new OrderQueue();
+
+        queue.enqueue(
+                new Order(
+                        1,
+                        101,
+                        201,
+                        new String[]{"Nasi Lemak", "Teh Tarik"},
+                        11.50,
+                        "Pending"
+                )
+        );
+
+        queue.enqueue(
+                new Order(
+                        2,
+                        102,
+                        202,
+                        new String[]{"Roti Canai"},
+                        3.00,
+                        "Pending"
+                )
+        );
+
+        System.out.println("\nPending Orders:");
+        queue.displayQueue();
+
+
+        // Process next order
+        System.out.println("\nProcessing Next Order:");
+
+        Order nextOrder = queue.dequeue();
+
+        System.out.println("Processed:");
+        System.out.println(nextOrder);
+
+        System.out.println("\nRemaining Queue:");
+
+        queue.displayQueue();
 
 
         // ─────────────────────────────────────────────

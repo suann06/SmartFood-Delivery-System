@@ -1,52 +1,126 @@
 // ============================================================
-// Author: [Person 2 - Write your name here]
+// Author: Su Ann
 // Module: Order Processing System
-// File:   UndoStack.java — LIFO Stack for undo feature (cart)
+// File: UndoStack.java — LIFO Stack for undo feature (cart)
 // ============================================================
 
 package order;
 
 public class UndoStack {
 
-    // TODO: Create an inner class 'Node' with:
-    //       - String item (food item name)
-    //       - Node next
+    // Inner class Node
+    private static class Node {
+        String item;
+        Node next;
 
+        Node(String item) {
+            this.item = item;
+            this.next = null;
+        }
+    }
 
-    // TODO: Declare top (Node), size (int)
+    // Variables
+    private Node top;
+    private int size;
 
-
-    // TODO: Constructor — initialize top = null, size = 0
-
+    // Constructor
+    public UndoStack(){
+        top = null;
+        size = 0;
+    }
 
     // --- Core Methods ---
+    // Add item to stack
+    public void push(String item){
 
-    // TODO: push(String item) — add item to the top of the stack
+        Node newNode = new Node(item);
 
-    // TODO: pop() — remove and return the item at the top (last added = undo)
-    //       Handle: empty stack case
+        newNode.next = top;
+        top = newNode;
 
-    // TODO: peek() — return top item without removing
-
-    // TODO: isEmpty() — return true if size == 0
-
-    // TODO: displayCart() — print all items from top to bottom
-
-    // TODO: getSize() — return current size
+        size++;
+    }
 
 
-    // --- Testing ---
-    /*
-    public static void main(String[] args) {
+    // Remove latest item
+    public String pop(){
+
+        if(isEmpty()){
+            return "Cart is empty";
+        }
+
+        String removed = top.item;
+
+        top = top.next;
+
+        size--;
+
+        return removed;
+    }
+
+
+    // View top item
+    public String peek(){
+
+        if(isEmpty()){
+            return "Cart is empty";
+        }
+
+        return top.item;
+    }
+
+
+    // Check empty
+    public boolean isEmpty(){
+
+        return size == 0;
+    }
+
+
+    // Display cart
+    public void displayCart(){
+
+        if(isEmpty()){
+            System.out.println("Cart is empty");
+            return;
+        }
+
+        Node current = top;
+
+        while(current != null){
+
+            System.out.println(current.item);
+
+            current = current.next;
+        }
+    }
+
+
+    // Return cart size
+    public int getSize(){
+
+        return size;
+    }
+
+
+    // Testing
+    /*public static void main(String[] args) {
+
         UndoStack cart = new UndoStack();
+
         cart.push("Nasi Lemak");
         cart.push("Teh Tarik");
         cart.push("Roti Canai");
+
         System.out.println("=== Cart ===");
         cart.displayCart();
-        System.out.println("=== Undo last item ===");
+
+        System.out.println("\n=== Undo last item ===");
+
         String removed = cart.pop();
+
         System.out.println("Removed: " + removed);
+
         cart.displayCart();
     }
     */

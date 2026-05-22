@@ -1,53 +1,155 @@
 // ============================================================
-// Author: [Person 2 - Write your name here]
+// Author: Su Ann
 // Module: Order Processing System
-// File:   OrderQueue.java — FIFO Queue for processing orders
+// File: OrderQueue.java — FIFO Queue for processing orders
 // ============================================================
 
 package order;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+
 public class OrderQueue {
 
-    // TODO: Create an inner class 'Node' with:
-    //       - Order data
-    //       - Node next
+    // Inner class Node
+    private static class Node {
+        Order order;
+        Node next;
 
+        Node(Order order) {
+            this.order = order;
+            this.next = null;
+        }
+    }
 
-    // TODO: Declare front (Node), rear (Node), size (int)
+    // Variables
+    private Node front;
+    private Node rear;
+    private int size;
 
+    // Constructor
+    public OrderQueue() {
+        this.front = null;
+        this.rear = null;
+        this.size = 0;
+    }
 
-    // TODO: Constructor — initialize front = null, rear = null, size = 0
+    // Add order to rear of queue
+    public void enqueue(Order order) {
 
+        Node newNode = new Node(order);
 
-    // --- Core Methods ---
+        if (isEmpty()) {
 
-    // TODO: enqueue(Order order) — add order to the rear of the queue
-    //       If queue is empty, front and rear both point to new node
+            front = newNode;
+            rear = newNode;
 
-    // TODO: dequeue() — remove and return the order at the front
-    //       Handle: empty queue case
-    //       If queue becomes empty, set rear = null too
+        } else {
 
-    // TODO: peek() — return front order without removing
+            rear.next = newNode;
+            rear = newNode;
+        }
 
-    // TODO: isEmpty() — return true if size == 0
+        size++;
+    }
 
-    // TODO: displayQueue() — print all orders from front to rear
+    // Remove next order from queue
+    public Order dequeue() {
 
-    // TODO: getSize() — return current size
+        if (isEmpty()) {
+            return null;
+        }
 
+        Order removedOrder = front.order;
 
-    // --- Testing ---
-    /*
-    public static void main(String[] args) {
+        front = front.next;
+
+        size--;
+
+        if (front == null) {
+            rear = null;
+        }
+
+        return removedOrder;
+    }
+
+    // View next order
+    public Order peek() {
+
+        if (isEmpty()) {
+            return null;
+        }
+
+        return front.order;
+    }
+
+    // Check if queue is empty
+    public boolean isEmpty() {
+
+        return size == 0;
+    }
+
+    // Display queue
+    public void displayQueue() {
+
+        if (isEmpty()) {
+            System.out.println("No pending orders.");
+            return;
+        }
+
+        System.out.println("Pending Orders:");
+
+        Node current = front;
+
+        while (current != null) {
+
+            System.out.println(current.order);
+
+            current = current.next;
+        }
+    }
+
+    // Return queue size
+    public int getSize() {
+        return size;
+    }
+
+    // Testing
+    /*public static void main(String[] args) {
+
         OrderQueue queue = new OrderQueue();
-        queue.enqueue(new Order(1, 101, 201, new String[]{"Nasi Lemak"}, 8.50, "Pending"));
-        queue.enqueue(new Order(2, 102, 202, new String[]{"Roti Canai"}, 3.00, "Pending"));
+
+        queue.enqueue(
+                new Order(
+                        1,
+                        101,
+                        201,
+                        new String[]{"Nasi Lemak"},
+                        8.50,
+                        "Pending"
+                )
+        );
+
+        queue.enqueue(
+                new Order(
+                        2,
+                        102,
+                        202,
+                        new String[]{"Roti Canai"},
+                        3.00,
+                        "Pending"
+                )
+        );
+
         System.out.println("=== Order Queue ===");
         queue.displayQueue();
+
         System.out.println("=== Processing next order ===");
+
         Order next = queue.dequeue();
+
         System.out.println("Processed: " + next);
+
         queue.displayQueue();
     }
     */

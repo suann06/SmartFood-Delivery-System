@@ -1,28 +1,82 @@
 // ============================================================
-// Author: [Person 2 - Write your name here]
+// Author: Su Ann
 // Module: Order Processing System
-// File:   Order.java — Data model for an order
+// File: Order.java — Data model for an order
 // ============================================================
 
 package order;
 
+import java.util.Arrays;
+
 public class Order {
-    // TODO: Declare fields:
-    //       - orderId (int)
-    //       - customerId (int)
-    //       - restaurantId (int)
-    //       - items (String[] or ArrayList<String>)
-    //       - totalPrice (double)
-    //       - status (String) — e.g., "Pending", "Processing", "Delivered"
 
+    private int orderId;
+    private int customerId;
+    private int restaurantId;
+    private String[] items;
+    private double totalPrice;
+    private String status;
 
-    // TODO: Constructor that initializes all fields
+    // Constructor
+    public Order(int orderId,
+                 int customerId,
+                 int restaurantId,
+                 String[] items,
+                 double totalPrice,
+                 String status) {
 
+        this.orderId = orderId;
+        this.customerId = customerId;
+        this.restaurantId = restaurantId;
+        this.items = items;
+        this.totalPrice = totalPrice;
+        this.status = status;
+    }
 
-    // TODO: Getters and Setters
+    // Getters
+    public int getOrderId() {
+        return orderId;
+    }
 
+    public int getCustomerId() {
+        return customerId;
+    }
 
-    // TODO: Override toString()
-    //       Example: "Order{id=1, customer=101, restaurant=201, items=[Nasi Lemak, Teh Tarik], total=RM11.00, status=Pending}"
+    public int getRestaurantId() {
+        return restaurantId;
+    }
 
+    public String[] getItems() {
+        return items;
+    }
+
+    public double getTotalPrice() {
+        return totalPrice;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    // Setters
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
+    public void setTotalPrice(double totalPrice) {
+        this.totalPrice = totalPrice;
+    }
+
+    @Override
+    public String toString() {
+
+        return "Order{" +
+                "id=" + orderId +
+                ", customer=" + customerId +
+                ", restaurant=" + restaurantId +
+                ", items=" + Arrays.toString(items) +
+                ", total=RM" + totalPrice +
+                ", status=" + status +
+                "}";
+    }
 }
