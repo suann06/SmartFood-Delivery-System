@@ -7,17 +7,17 @@
 package user;
 
 public class Restaurant {
-    private String restaurantId;
+    private int restaurantId;
     private String restaurantName;
     private String location;
 
-    public Restaurant(String restaurantId, String restaurantName, String location) {
+    public Restaurant(int restaurantId, String restaurantName, String location) {
         this.restaurantId = restaurantId;
         this.restaurantName = restaurantName;
         this.location = location;
     }
 
-    public String getRestaurantId() { 
+    public int getRestaurantId() { 
         return restaurantId; 
     }
     public String getRestaurantName() {
