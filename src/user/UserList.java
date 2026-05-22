@@ -8,46 +8,90 @@ package user;
 
 public class UserList {
 
-    // TODO: Create an inner class 'Node' with:
-    //       - User data
-    //       - Node next
-    //       - Constructor
+    private class Node {
+        User data;
+        Node next;
 
-
-    // TODO: Declare head (Node) and size (int)
-
-
-    // TODO: Constructor — initialize head = null, size = 0
-
-
-    // --- Core Methods ---
-
-    // TODO: addUser(User user) — add a new user to the end of the list
-
-    // TODO: removeUser(int userId) — find and remove user by ID
-    //       Handle: empty list, removing head, removing middle/end node
-
-    // TODO: searchUser(int userId) — return the User if found, null otherwise
-
-    // TODO: displayAll() — loop through and print every user
-
-    // TODO: getSize() — return current size
-
-
-    // --- Testing ---
-    // Uncomment this to test your module independently:
-    /*
-    public static void main(String[] args) {
-        UserList list = new UserList();
-        list.addUser(new User(1, "Ali", "ali@mail.com", "KL", "012-345"));
-        list.addUser(new User(2, "Siti", "siti@mail.com", "PJ", "013-456"));
-        System.out.println("=== All Users ===");
-        list.displayAll();
-        System.out.println("=== Remove User 1 ===");
-        list.removeUser(1);
-        list.displayAll();
-        System.out.println("=== Search User 2 ===");
-        System.out.println(list.searchUser(2));
+        Node(User data) {
+            this.data = data;
+            this.next = null;
+        }
     }
-    */
+
+    private Node head;
+    private int size;
+
+    public UserList() {
+        this.head = null;
+        this.size = 0;
+    }
+
+    public void addUser(User user) {
+        Node newNode = new Node(user);
+        if (head == null) {
+            head = newNode;
+        } else {
+            Node temp = head;
+            while (temp.next != null) {
+                temp = temp.next;
+            }
+            temp.next = newNode;
+        }
+        size++;
+        System.out.println("User added: " + user.getUserName());
+    }
+
+    public void removeUser(int userId) {
+        if (head == null) {
+            System.out.println("List is empty.");
+            return;
+        }
+
+        if (head.data.getUserId() == userId) {
+            head = head.next;
+            size--;
+            System.out.println("User " + userId + " removed.");
+            return;
+        }
+
+        Node temp = head;
+        while (temp.next != null && temp.next.data.getUserId() != userId) {
+            temp = temp.next;
+        }
+
+        if (temp.next != null) {
+            temp.next = temp.next.next;
+            size--;
+            System.out.println("User " + userId + " removed.");
+        } else {
+            System.out.println("User ID " + userId + " not found.");
+        }
+    }
+
+    public User searchUser(int userId) {
+        Node temp = head;
+        while (temp != null) {
+            if (temp.data.getUserId() == userId) {
+                return temp.data;
+            }
+            temp = temp.next;
+        }
+        return null;
+    }
+
+    public void displayAll() {
+        if (head == null) {
+            System.out.println("No users found.");
+            return;
+        }
+        Node temp = head;
+        while (temp != null) {
+            System.out.println(temp.data);
+            temp = temp.next;
+        }
+    }
+
+    public int getSize() {
+        return size;
+    }
 }
