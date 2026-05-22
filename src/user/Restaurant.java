@@ -1,22 +1,22 @@
-// ============================================================
-// Author: [Person 1 - Write your name here]
-// Module: User & Restaurant Management
-// File:   Restaurant.java — Data model for a restaurant
-// ============================================================
-
-package user;
+package user_restaurantmanagement;
 
 public class Restaurant {
-    // TODO: Declare fields — restaurantId (int), name (String), address (String), cuisine (String), rating (double)
+    private String restaurantId;
+    private String restaurantName;
+    private String location;
 
+    public Restaurant(String restaurantId, String restaurantName, String location) {
+        this.restaurantId = restaurantId;
+        this.restaurantName = restaurantName;
+        this.location = location;
+    }
 
-    // TODO: Constructor that initializes all fields
+    public String getRestaurantId() { return restaurantId; }
+    public String getRestaurantName() { return restaurantName; }
+    public String getLocation() { return location; }
 
-
-    // TODO: Getters and Setters for each field
-
-
-    // TODO: Override toString() to display restaurant info nicely
-    //       Example: "Restaurant{id=201, name='Mamak Corner', cuisine='Malay', rating=4.5}"
-
+    @Override
+    public String toString() {
+        return "ID: " + restaurantId + " | Name: " + restaurantName + " | Location: " + location;
+    }
 }
