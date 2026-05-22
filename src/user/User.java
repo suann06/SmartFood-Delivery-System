@@ -1,22 +1,28 @@
-// ============================================================
-// Author: [Person 1 - Write your name here]
-// Module: User & Restaurant Management
-// File:   User.java — Data model for a customer
-// ============================================================
-
-package user;
+package user_restaurantmanagement;
 
 public class User {
-    // TODO: Declare fields — userId (int), name (String), email (String), address (String), phone (String)
+    private String userId;
+    private String userName;
+    private String address;
 
+    public User(String userId, String userName, String address) {
+        this.userId = userId;
+        this.userName = userName;
+        this.address = address;
+    }
 
-    // TODO: Constructor that initializes all fields
+    public String getUserId() { 
+        return userId; 
+    }
+    public String getUserName() { 
+        return userName; 
+    }
+    public String getAddress() {
+        return address;
+    }
 
-
-    // TODO: Getters and Setters for each field
-
-
-    // TODO: Override toString() to display user info nicely
-    //       Example output: "User{id=1, name='Ali', email='ali@mail.com', address='KL', phone='012-345'}"
-
+    @Override
+    public String toString() {
+        return "ID: " + userId + " | Name: " + userName + " | Address: " + address;
+    }
 }
