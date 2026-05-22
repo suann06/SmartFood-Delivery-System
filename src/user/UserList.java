@@ -1,5 +1,5 @@
 // ============================================================
-// Author: [Person 1 - Write your name here]
+// Author: [Person 1 - Janice Lim Pei Yin]
 // Module: User & Restaurant Management
 // File:   UserList.java — Linked List to manage users
 // ============================================================
