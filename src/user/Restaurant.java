@@ -1,4 +1,10 @@
-package user_restaurantmanagement;
+// ============================================================
+// Author: [Person 1 - Janice Lim Pei Yin]
+// Module: User & Restaurant Management
+// File:   Restaurant.java — Data model for a restaurant
+// ============================================================
+
+package user;
 
 public class Restaurant {
     private String restaurantId;
@@ -11,9 +17,15 @@ public class Restaurant {
         this.location = location;
     }
 
-    public String getRestaurantId() { return restaurantId; }
-    public String getRestaurantName() { return restaurantName; }
-    public String getLocation() { return location; }
+    public String getRestaurantId() { 
+        return restaurantId; 
+    }
+    public String getRestaurantName() {
+        return restaurantName; 
+    }
+    public String getLocation() {
+        return location; 
+    }
 
     @Override
     public String toString() {
