@@ -1,5 +1,5 @@
 // ============================================================
-// Author: [Person 4 - Write your name here]
+// Author: [Person 4 - HARRESH]
 // Module: Route Optimization
 // File:   Graph.java — Weighted graph using adjacency list
 // ============================================================
@@ -10,36 +10,69 @@ import java.util.*;
 
 public class Graph {
 
-    // TODO: Create an inner class 'Edge' with:
-    //       - String destination
-    //       - int weight (distance or time)
-    //       - Constructor + toString()
+    class Edge {
+        String destination;
+        int weight;
 
+        Edge(String destination, int weight) {
+            this.destination = destination;
+            this.weight = weight;
+        }
 
-    // TODO: Declare adjacency list:
-    //       HashMap<String, List<Edge>> adjacencyList
-    //       (It's okay to use java.util.HashMap here — focus is on the graph, not the map)
+        public String getDestination() {
+            return destination;
+        }
 
+        public int getWeight() {
+            return weight;
+        }
 
-    // TODO: Constructor — initialize the adjacency list
+        @Override
+        public String toString() {
+            return destination + " (" + weight + ")";
+        }
+    }
 
+    // Adjacency list
+    HashMap<String, List<Edge>> adjacencyList;
 
-    // --- Core Methods ---
+    // Constructor
+    public Graph() {
+        adjacencyList = new HashMap<>();
+    }
 
-    // TODO: addLocation(String name) — add a new vertex (key) with empty edge list
+    // Add a new location (vertex)
+    public void addLocation(String name) {
+        adjacencyList.putIfAbsent(name, new ArrayList<>());
+    }
 
-    // TODO: addRoute(String from, String to, int weight) — add bidirectional edge
-    //       Add edge from→to AND to→from
-    //       Handle: if location doesn't exist yet, add it first
+    // Add a bidirectional route (edge) between two locations
+    public void addRoute(String from, String to, int weight) {
+        // Add locations first if they don't exist yet
+        addLocation(from);
+        addLocation(to);
 
-    // TODO: getNeighbors(String location) — return list of edges for a location
+        // Add edge both ways (bidirectional)
+        adjacencyList.get(from).add(new Edge(to, weight));
+        adjacencyList.get(to).add(new Edge(from, weight));
+    }
 
-    // TODO: getLocations() — return all location names (Set<String>)
+    // Return list of edges for a given location
+    public List<Edge> getNeighbors(String location) {
+        return adjacencyList.getOrDefault(location, new ArrayList<>());
+    }
 
-    // TODO: displayGraph() — print each location and its connections
-    //       Example output:
-    //       Restaurant A → [Junction 1 (4), Junction 2 (2)]
-    //       Junction 1 → [Restaurant A (4), Junction 3 (5)]
+    // Return all location names
+    public Set<String> getNodes() {
+        return adjacencyList.keySet();
+    }
+
+    // Print the graph
+    public void displayGraph() {
+        for (String location : adjacencyList.keySet()) {
+            System.out.println(location + " → " + adjacencyList.get(location));
+        }
+        
 
 
     // --- Testing ---
