@@ -7,16 +7,35 @@
 package route;
 
 public class Location {
-    // TODO: Declare fields — locationId (int), name (String)
+   private int locationId;
+    private String name;
 
+    // Constructor
+    public Location(int locationId, String name) {
+        this.locationId = locationId;
+        this.name = name;
+    }
 
-    // TODO: Constructor
+    // Getters and Setters
+    public int getLocationId() {
+        return locationId;
+    }
 
+    public void setLocationId(int locationId) {
+        this.locationId = locationId;
+    }
 
-    // TODO: Getters and Setters
+    public String getName() {
+        return name;
+    }
 
+    public void setName(String name) {
+        this.name = name;
+    }
 
-    // TODO: Override toString()
-    //       Example: "Location{id=1, name='Restaurant A'}"
-
+    // toString
+    @Override
+    public String toString() {
+        return "Location{id=" + locationId + ", name='" + name + "'}";
+    }
 }
