@@ -1,91 +1,152 @@
-// ============================================================
-// Author: [Person 5 - Write your name here]
-// Module: Data Retrieval Optimization
-// File:   DataHashMap.java — Custom Hash Table for fast data access
-// ============================================================
+// Author: Person 5
+// Module: Search, Recommendation & Data Retrieval
+// Data Structure: BST + HashMap
 
 package search;
 
 public class DataHashMap {
 
-    // TODO: Create an inner class 'Entry' with:
-    //       - String key
-    //       - Object value (or String value — your choice)
-    //       - Entry next (for chaining on collision)
-    //       - Constructor
+    private class Entry {
+        String key;
+        Object value;
+        Entry next;
 
+        Entry(String key, Object value) {
+            this.key = key;
+            this.value = value;
+            this.next = null;
+        }
+    }
 
-    // TODO: Declare:
-    //       - Entry[] buckets (the array of buckets)
-    //       - int capacity (size of array)
-    //       - int size (number of entries stored)
+    private Entry[] buckets;
+    private int size;
 
+    @SuppressWarnings("unchecked")
+    public DataHashMap(int capacity) {
+        buckets = new Entry[capacity];
+        size = 0;
+    }
 
-    // TODO: Constructor — initialize buckets array with given capacity, size = 0
+    // hash function: sum of character values mod bucket count
+    private int hash(String key) {
+        if (key == null) return 0;
+        int hashValue = 0;
+        for (int i = 0; i < key.length(); i++) {
+            hashValue += key.charAt(i);
+        }
+        return Math.abs(hashValue) % buckets.length;
+    }
 
+    public void put(String key, Object value) {
+        int index = hash(key);
+        Entry head = buckets[index];
 
-    // --- Hash Function ---
+        // update if key already exists
+        Entry current = head;
+        while (current != null) {
+            if (current.key.equals(key)) {
+                current.value = value;
+                return;
+            }
+            current = current.next;
+        }
 
-    // TODO: hash(String key) — convert key to bucket index
-    //       Simple approach: sum of all character ASCII values, then % capacity
-    //       Better approach: use key.hashCode() & 0x7fffffff % capacity
-    //       Return: int (index between 0 and capacity-1)
+        // add new entry at head of chain
+        Entry newEntry = new Entry(key, value);
+        newEntry.next = head;
+        buckets[index] = newEntry;
+        size++;
+    }
 
+    public Object get(String key) {
+        int index = hash(key);
+        Entry current = buckets[index];
+        while (current != null) {
+            if (current.key.equals(key)) return current.value;
+            current = current.next;
+        }
+        return null;
+    }
 
-    // --- Core Methods ---
+    public Object remove(String key) {
+        int index = hash(key);
+        Entry current = buckets[index];
+        Entry prev = null;
 
-    // TODO: put(String key, Object value) — insert or update a key-value pair
-    //       1. Compute bucket index using hash()
-    //       2. Check if key already exists in that bucket's chain → update value
-    //       3. If not, add new Entry at the head of the chain
-    //       4. Increment size
+        while (current != null) {
+            if (current.key.equals(key)) {
+                if (prev == null) {
+                    buckets[index] = current.next;
+                } else {
+                    prev.next = current.next;
+                }
+                size--;
+                return current.value;
+            }
+            prev = current;
+            current = current.next;
+        }
 
-    // TODO: get(String key) — retrieve value by key
-    //       1. Compute bucket index
-    //       2. Walk the chain to find matching key
-    //       3. Return value if found, null otherwise
+        System.out.println("Key \"" + key + "\" not found.");
+        return null;
+    }
 
-    // TODO: remove(String key) — delete entry by key
-    //       Handle: removing head of chain vs middle/end of chain
+    public boolean containsKey(String key) {
+        int index = hash(key);
+        Entry current = buckets[index];
+        while (current != null) {
+            if (current.key.equals(key)) return true;
+            current = current.next;
+        }
+        return false;
+    }
 
-    // TODO: containsKey(String key) — return true if key exists
+    public int size() {
+        return size;
+    }
 
-    // TODO: display() — print all key-value pairs across all buckets
-    //       Show which bucket each entry is in (helps visualize distribution)
+    public void display() {
+        System.out.println("=== HashMap Contents ===");
+        System.out.println("Total entries: " + size + " | Bucket count: " + buckets.length);
+        System.out.println();
+        for (int i = 0; i < buckets.length; i++) {
+            if (buckets[i] != null) {
+                System.out.print("Bucket " + i + ": ");
+                Entry current = buckets[i];
+                while (current != null) {
+                    System.out.print("[" + current.key + " -> " + current.value + "]");
+                    if (current.next != null) System.out.print(" -> ");
+                    current = current.next;
+                }
+                System.out.println();
+            }
+        }
+        System.out.println();
+    }
 
-    // TODO: getSize() — return number of entries
-
-
-    // --- Testing ---
-    /*
     public static void main(String[] args) {
         DataHashMap map = new DataHashMap(16);
 
-        // Store user profiles
-        map.put("user_101", "Ali - KL - 012-345");
-        map.put("user_102", "Siti - PJ - 013-456");
-        map.put("user_103", "Raj - Shah Alam - 014-567");
+        map.put("user_101", "Ali - KL - 012-3456789");
+        map.put("user_102", "Siti - PJ - 013-4567890");
+        map.put("user_105", "Raj - Shah Alam - 014-5678901");
+        map.put("order_001", "Order #1 - Nasi Lemak x2 - RM17.00");
+        map.put("order_002", "Order #2 - Char Kuey Teow x1 - RM10.00");
 
-        // Store order details
-        map.put("order_001", "Nasi Lemak x2 - RM17.00");
-        map.put("order_002", "Roti Canai x3 - RM9.00");
+        System.out.println("user_101: " + map.get("user_101"));
+        System.out.println("order_001: " + map.get("order_001"));
+        System.out.println("unknown: " + map.get("unknown_key"));
 
-        // Fast retrieval
-        System.out.println("=== Get user_101 ===");
-        System.out.println(map.get("user_101"));   // O(1) access!
+        System.out.println("Contains user_102? " + map.containsKey("user_102"));
+        System.out.println("Contains user_999? " + map.containsKey("user_999"));
 
-        System.out.println("=== Get order_001 ===");
-        System.out.println(map.get("order_001"));
+        map.put("user_101", "Ali - KL - 012-9999999 (updated)");
+        System.out.println("user_101 after update: " + map.get("user_101"));
 
-        System.out.println("=== Contains user_999? ===");
-        System.out.println(map.containsKey("user_999"));  // false
+        map.remove("order_002");
+        System.out.println("order_002 after remove: " + map.get("order_002"));
 
-        System.out.println("=== All Entries ===");
         map.display();
-
-        System.out.println("=== Remove user_102 ===");
-        map.remove("user_102");
-        map.display();
+        System.out.println("Total entries: " + map.size());
     }
-    */
 }
