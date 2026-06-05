@@ -49,7 +49,7 @@ public class Dijkstra {
             visited.add(currentNode);
 
             // e. Explore each neighbor
-            for (Edge edge : graph.getNeighbors(currentNode)) {
+            for (Graph.Edge edge : graph.getNeighbors(currentNode)) {
                 String neighbor = edge.getDestination();
                 int weight = edge.getWeight();
 

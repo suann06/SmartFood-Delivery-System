@@ -10,7 +10,7 @@ import java.util.*;
 
 public class Graph {
 
-    class Edge {
+    public class Edge {
         String destination;
         int weight;
 
@@ -72,9 +72,7 @@ public class Graph {
         for (String location : adjacencyList.keySet()) {
             System.out.println(location + " → " + adjacencyList.get(location));
         }
-        
-
-
+    }
     // --- Testing ---
     /*
     public static void main(String[] args) {
