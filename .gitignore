@@ -13,3 +13,13 @@
 # OS files
 .DS_Store
 Thumbs.db
+
+# Build output (local compiles)
+build/
+out/
+dist/
+
+# GUI / web app (Lovable-generated; kept out of the repo).
+# The updated source lives separately and the app is deployed to Vercel.
+archive/
+smartfood-dispatch-main/

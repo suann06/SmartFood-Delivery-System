@@ -2,6 +2,8 @@
 // Module: Search, Recommendation & Data Retrieval
 // Data Structure: BST + HashMap
 
+// what bst is , point at tree , point how insertrec works(each node has left child and right child)gonna keep it sorted > inorder traversal > range
+
 package search;
 
 public class FoodBST {
@@ -81,14 +83,17 @@ public class FoodBST {
         if (node == null) return 0;
         int count = 0;
 
+        // 1. Go LEFT (cheaper side) only if this price is ABOVE the min
         if (node.data.getPrice() > minPrice)
             count += searchByPriceRec(node.left, minPrice, maxPrice);
 
+// 2. If this dish is in range → print it, count it
         if (node.data.getPrice() >= minPrice && node.data.getPrice() <= maxPrice) {
             System.out.println("  " + node.data);
             count++;
         }
 
+        // 3. Go RIGHT (pricier side) only if this price is BELOW the max
         if (node.data.getPrice() < maxPrice)
             count += searchByPriceRec(node.right, minPrice, maxPrice);
 
